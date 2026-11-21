@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "game": {
+    "id": 2753915549,
+    "slug": "Blox-Fruits",
+    "title": "Blox Fruits",
+    "creator": "Gamer Robot Inc",
+    "verified": true,
+    "maturity": "Mild",
+    "description": "Welcome to Blox Fruits! Become a master swordsman or a powerful Blox Fruit user as you train to become the strongest player of all time. You can choose to fight difficult enemies or have powerful battles against bosses while sailing across the ocean to find hidden secrets. Current level cap: 2450 Current fruits in the game: Bomb, Spike, Slice, Spring, Kilo, Smoke, Spin, Flame, Falcon, Ice, Sand, Darkness, Resurrection, Diamond, Light, Love, Magma, Portal, Rubber, Tremor, Buddha, Barrier, Spider, Phoenix, Lightning, Paw, Snow, Gravity, Mass, Shadow, Poison, Dominion, Spirit, Dragon and Leopard FAQ: - Fruits appear on the map every hour / disappear after 20. - You can buy fruits from the Blox Fruit Dealer. He restocks random fruits every 4 hours - More information in the group description Do not exploit or auto-farm, our automatic detection will catch you and we will not appeal our bans.",
+    "ratings": { "likes": "12M+", "dislikes": "1M+" },
+    "contentRatings": ["Maturity: Mild", "Violence (Frequent/Mild)"],
+    "stats": {
+      "active": "242.279",
+      "favorites": "20.270.992",
+      "visits": "65.5B+",
+      "voice": "Not Supported",
+      "camera": "Not Supported",
+      "updated": "11/17/2026",
+      "serverSize": "12",
+      "genre": "RPG",
+      "subgenre": "Action RPG"
+    },
+    "carousel": [
+      "assets/bf/hero_01.webp",
+      "assets/bf/hero_02.webp",
+      "assets/bf/hero_03.webp",
+      "assets/bf/hero_04.webp",
+      "assets/bf/hero_05.webp",
+      "assets/bf/hero_06.webp",
+      "assets/bf/hero_07.webp",
+      "assets/bf/hero_08.webp",
+      "assets/bf/hero_09.webp"
+    ],
+    "badges": [
+      {
+        "name": "Second Sea",
+        "image": "assets/bf/badge_sea2.webp",
+        "description": "You have reached the Second Sea! Ready to awaken the true potential of your fruits?",
+        "rarity": "1.6% (Insane)",
+        "yesterday": 57705,
+        "before": 98670129
+      },
+      {
+        "name": "Third Sea",
+        "image": "assets/bf/badge_sea3.webp",
+        "description": "You have reached the Third Sea! A new adventure awaits.",
+        "rarity": "0.8% (Impossible)",
+        "yesterday": 27890,
+        "before": 61244514
+      }
+    ],
+    "music": [
+      { "title": "Industry (A)", "artist": "Dave Hewson", "image": "assets/bf/music_1.webp" },
+      { "title": "The Woodlands", "artist": "KPM Main Series", "image": "assets/bf/music_2.webp" },
+      { "title": "Childhood Sketches", "artist": "KPM Main Series", "image": "assets/bf/music_3.webp" },
+      { "title": "Acoustic Traveller a", "artist": "Alex Tschellener", "image": "assets/bf/music_4.webp" },
+      { "title": "Natural Innovation", "artist": "William Berridge", "image": "assets/bf/music_5.webp" },
+      { "title": "Curious Notion", "artist": "Thomas Balmforth", "image": "assets/bf/music_6.webp" }
+    ],
+    "store": [
+      { "name": "Buddha Fruit", "price": 1650, "category": "Fruits", "image": "assets/bf/hero_04.webp" },
+      { "name": "Magma Fruit", "price": 1300, "category": "Fruits", "image": "assets/bf/hero_05.webp" },
+      { "name": "Dragon Fruit", "price": 2600, "category": "Fruits", "image": "assets/bf/hero_06.webp" },
+      { "name": "Sword Expert", "price": 900, "category": "Skills", "image": "assets/bf/hero_07.webp" },
+      { "name": "Race Awakening", "price": 2200, "category": "Skills", "image": "assets/bf/hero_08.webp" },
+      { "name": "Private Server", "price": 250, "category": "Servers", "image": "assets/bf/hero_09.webp" }
+    ],
+    "urls": {
+      "official": "https://www.roblox.com/games/2753915549/Blox-Fruits",
+      "login": "https://www.roblox.com/login",
+      "signup": "https://www.roblox.com/signup"
+    }
+  },
+  "player": {
+    "name": "Kai",
+    "level": 2450,
+    "fruit": "Buddha",
+    "belts": 3,
+    "race": "Human",
+    "money": 12500000,
+    "world": "Third Sea"
+  },
+  "privateServers": [
+    { "id": "PS-0001", "name": "Treasure Island", "owner": "Kai", "players": 3, "maxPlayers": 12, "ping": 38, "region": "Brazil", "access": "Friends", "icon": "assets/bf/hero_01.webp" },
+    { "id": "PS-0002", "name": "Morning Coffee", "owner": "Gamer Robot Inc", "players": 7, "maxPlayers": 12, "ping": 44, "region": "Brazil", "access": "Public", "icon": "assets/bf/hero_02.webp" },
+    { "id": "PS-0003", "name": "Night Raid", "owner": "Marina", "players": 11, "maxPlayers": 12, "ping": 52, "region": "United States", "access": "Friends", "icon": "assets/bf/hero_03.webp" },
+    { "id": "PS-0004", "name": "Fruit Training", "owner": "Lucas", "players": 2, "maxPlayers": 8, "ping": 61, "region": "Europe", "access": "Public", "icon": "assets/bf/hero_04.webp" },
+    { "id": "PS-0005", "name": "Secret Pirates", "owner": "Bia", "players": 5, "maxPlayers": 12, "ping": 47, "region": "Brazil", "access": "Friends", "icon": "assets/bf/hero_05.webp" },
+    { "id": "PS-0006", "name": "Solo Grind 24/7", "owner": "Rafael", "players": 1, "maxPlayers": 4, "ping": 33, "region": "Brazil", "access": "Private", "icon": "assets/bf/hero_06.webp" }
+  ],
+  "settings": {
+    "defaultRegion": "Brazil",
+    "defaultMaxPlayers": 12,
+    "showPing": true,
+    "autoSave": true
+  }
+}

